@@ -32,4 +32,4 @@ npm run build
 
 ## License
 
-This project is released under the MIT License. All models and assets were created by me and are free to use with attribution.
+https://subhans-portfolio.netlify.app/
