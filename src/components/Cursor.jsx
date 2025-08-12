@@ -24,40 +24,40 @@ export const Cursor = () => {
   };
 
   useEffect(() => {
-    const mouseEventsListener = document.addEventListener(
-      "mousemove",
-      function (event) {
-        mouseX = event.pageX;
-        mouseY = event.pageY;
-      }
-    );
+    const handleMouseMove = function (event) {
+      mouseX = event.pageX;
+      mouseY = event.pageY;
+    };
+    
+    document.addEventListener("mousemove", handleMouseMove);
     const animateEvent = requestAnimationFrame(animate);
+    
     return () => {
-      document.removeEventListener("mousemove", mouseEventsListener);
+      document.removeEventListener("mousemove", handleMouseMove);
       cancelAnimationFrame(animateEvent);
     };
   }, []);
 
   useEffect(() => {
-    const mouseEventListener = document.addEventListener(
-      "mouseover",
-      function (e) {
-        if (
-          e.target.tagName.toLowerCase() === "button" ||
-          // check parent is button
-          e.target.parentElement.tagName.toLowerCase() === "button" ||
-          // check is input or textarea
-          e.target.tagName.toLowerCase() === "input" ||
-          e.target.tagName.toLowerCase() === "textarea"
-        ) {
-          setHoverButton(true);
-        } else {
-          setHoverButton(false);
-        }
+    const handleMouseOver = function (e) {
+      if (
+        e.target.tagName.toLowerCase() === "button" ||
+        // check parent is button
+        e.target.parentElement.tagName.toLowerCase() === "button" ||
+        // check is input or textarea
+        e.target.tagName.toLowerCase() === "input" ||
+        e.target.tagName.toLowerCase() === "textarea"
+      ) {
+        setHoverButton(true);
+      } else {
+        setHoverButton(false);
       }
-    );
+    };
+    
+    document.addEventListener("mouseover", handleMouseOver);
+    
     return () => {
-      document.removeEventListener("mouseover", mouseEventListener);
+      document.removeEventListener("mouseover", handleMouseOver);
     };
   }, []);
 

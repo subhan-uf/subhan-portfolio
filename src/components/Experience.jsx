@@ -6,7 +6,7 @@ import {
 } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { animate, useMotionValue } from "framer-motion";
-import { motion } from "framer-motion-3d";
+import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { framerMotionConfig } from "../config";
 import { Avatar } from "./Avatar";
@@ -35,16 +35,18 @@ export const Experience = (props) => {
     animate(cameraLookAtX, menuOpened ? 5 : 0, {
       ...framerMotionConfig,
     });
-  }, [menuOpened]);
+  }, [menuOpened, cameraPositionX, cameraLookAtX]);
 
   const characterContainerAboutRef = useRef();
 
   const [characterAnimation, setCharacterAnimation] = useState("Typing");
   useEffect(() => {
     setCharacterAnimation("Falling");
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setCharacterAnimation(section === 0 ? "Typing" : "Standing");
     }, 600);
+    
+    return () => clearTimeout(timer);
   }, [section]);
 
   const characterGroup = useRef();
