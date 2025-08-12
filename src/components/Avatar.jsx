@@ -48,13 +48,13 @@ export function Avatar(props) {
     return () => {
       actions[animation].reset().fadeOut(0.5);
     };
-  }, [animation]);
+  }, [animation, actions]);
 
   useEffect(() => {
     Object.values(materials).forEach((material) => {
       material.wireframe = wireframe;
     });
-  }, [wireframe]);
+  }, [wireframe, materials]);
 
   return (
     <group {...props} ref={group} dispose={null}>
