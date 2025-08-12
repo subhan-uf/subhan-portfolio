@@ -2,40 +2,40 @@ import { Image, Text } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { animate, useMotionValue } from "framer-motion";
 
-import { motion } from "framer-motion-3d";
+import { motion } from "framer-motion";
 import { atom, useAtom } from "jotai";
 import { useEffect, useRef } from "react";
 
 export const projects = [
   {
     title: "Octathorpe Portfolio",
-    
     image: "projects/portfolio.jpeg",
-  
+    url: "#",
+    description: "A 3D interactive portfolio showcasing projects"
   },
   {
     title: "React Three Fiber Integrated Nike Store",
-    
     image: "projects/ecommerce.png",
-  
+    url: "#",
+    description: "3D e-commerce experience with React Three Fiber"
   },
   {
     title: "3D Drone Visualizer",
-    
     image: "projects/dronee.png",
-
+    url: "#",
+    description: "Interactive 3D drone visualization tool"
   },
   {
     title: "3D Wallet Visualizer",
-    
     image: "projects/wallett.png",
- 
+    url: "#",
+    description: "3D wallet visualization and customization"
   },
   {
     title: "Hotel Booking System",
-    
     image: "projects/hotel.png",
-  
+    url: "#",
+    description: "Full-stack hotel booking application"
   },
 ];
 
@@ -47,7 +47,7 @@ const Project = (props) => {
 
   useEffect(() => {
     animate(bgOpacity, highlighted ? 0.7 : 0.4);
-  }, [highlighted]);
+  }, [highlighted, bgOpacity]);
 
   useFrame(() => {
     background.current.material.opacity = bgOpacity.get();
