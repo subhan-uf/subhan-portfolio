@@ -1,40 +1,45 @@
-import { Image, Text } from "@react-three/drei";
+import { Image, Text, useCursor } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { animate, useMotionValue } from "framer-motion";
 
 import { motion } from "framer-motion-3d";
 import { atom, useAtom } from "jotai";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const projects = [
   {
-    title: "Octathorpe Portfolio",
+    title: "AI Invoice Summarizer SAAS App",
     
     image: "projects/portfolio.jpeg",
+    url: "https://github.com/subhan-uf/invoice-summarizer-nexorus",
   
   },
   {
-    title: "React Three Fiber Integrated Nike Store",
+    title: "Immersive E-Commerce Nike Store",
     
     image: "projects/ecommerce.png",
+    url: "https://github.com/subhan-uf/ImmersiveEcommerce",
   
   },
   {
-    title: "3D Drone Visualizer",
+    title: "University Resource Scheudling Software",
     
     image: "projects/dronee.png",
+    url: "https://github.com/subhan-uf/ResourceSchedulerFrontend",
 
   },
   {
-    title: "3D Wallet Visualizer",
+    title: "Phishing Detection Browser Extension",
     
     image: "projects/wallett.png",
+    url: "https://github.com/subhan-uf/phishing-detection",
  
   },
   {
-    title: "Hotel Booking System",
+    title: "Nexorus SAAS Website",
     
     image: "projects/hotel.png",
+    url: "https://nexorus-tech.netlify.app",
   
   },
 ];
@@ -44,6 +49,8 @@ const Project = (props) => {
 
   const background = useRef();
   const bgOpacity = useMotionValue(0.4);
+  const [hovered, setHovered] = useState(false);
+  useCursor(hovered);
 
   useEffect(() => {
     animate(bgOpacity, highlighted ? 0.7 : 0.4);
@@ -57,10 +64,12 @@ const Project = (props) => {
     <group {...props}>
       <mesh
         position-z={-0.001}
-        onClick={() => window.open(project.url, "_blank")}
+        onClick={() => project.url && window.open(project.url, "_blank", "noopener,noreferrer")}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
         ref={background}
       >
-        <planeGeometry args={[2.2, 2]} />
+        <planeGeometry args={[2.2, 2.5]} />
         <meshBasicMaterial color="black" transparent opacity={0.4} />
       </mesh>
       <Image
@@ -68,6 +77,9 @@ const Project = (props) => {
         url={project.image}
         toneMapped={false}
         position-y={0.3}
+        nClick={() => project.url && window.open(project.url, "_blank", "noopener,noreferrer")}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
       />
       <Text
         maxWidth={2}

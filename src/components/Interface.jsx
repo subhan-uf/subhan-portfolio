@@ -1,4 +1,4 @@
-import { ValidationError, useForm } from "@formspree/react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
 import { currentProjectAtom, projects } from "./Projects";
@@ -53,7 +53,7 @@ const AboutSection = (props) => {
         <span className="bg-white px-1 italic">Subhan</span>
       </h1>
       <motion.p
-        className="text-lg text-gray-600 mt-4"
+        className="text-lg text-black-600 mt-4"
         initial={{
           opacity: 0,
           y: 25,
@@ -67,9 +67,9 @@ const AboutSection = (props) => {
           delay: 1.5,
         }}
       >
-        I am a full stack developer
-        <br />
-        with an expertise in Three.js and React Three Fiber
+        Cloud Software Engineer specializing in full-stack development,<br /> backend
+        architecture, and cloud-based application deployment.<br /> Experienced in
+        building scalable systems using modern <br/> frameworks and cloud technologies.
       </motion.p>
       <motion.button
         onClick={() => setSection(3)}
@@ -96,24 +96,32 @@ const AboutSection = (props) => {
 
 const skills = [
   {
-    title: "Threejs / React Three Fiber",
-    level: 80,
-  },
-  {
-    title: "React",
-    level: 70,
-  },
-  {
-    title: "Nodejs",
+    title: "Cloud Engineering",
     level: 90,
   },
   {
-    title: "Typescript",
-    level: 60,
+    title: "Django",
+    level: 85,
   },
   {
-    title: "3D Modeling",
-    level: 30,
+    title: "React / Next.js",
+    level: 80,
+  },
+  {
+    title: "AI Automation/ Langchain",
+    level: 75,
+  },
+  {
+    title: "Node.js / FastAPI / Flask",
+    level: 85,
+  },
+  {
+    title: "AWS / Supabase",
+    level: 70,
+  },
+  {
+    title: "Three.js / React Three Fiber",
+    level: 65,
   },
 ];
 const languages = [
@@ -262,27 +270,68 @@ const ProjectsSection = () => {
   );
 };
 
+
 const ContactSection = () => {
-  const [state, handleSubmit] = useForm("mayzgjbd");
+  const ENDPOINT= import.meta.env.VITE_APP_ENDPOINT;
+  const TOKEN= import.meta.env.VITE_APP_TOKEN;
+  const [submitting, setSubmitting] = useState(false);
+  const [succeeded, setSucceeded] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setSubmitting(true);
+    setError("");
+
+    const formData = new FormData(e.currentTarget);
+    const payload = {
+      token: TOKEN,
+      name: formData.get("name"),
+      email: formData.get("email"),
+      message: formData.get("message"),
+    };
+
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+
+      if (data.ok) {
+        setSucceeded(true);
+        e.currentTarget.reset();
+      } else {
+        setError(data.error || "Something went wrong.");
+      }
+    } catch (err) {
+      setError("Fill all fields");
+    } finally {
+      setSubmitting(false);
+    }
+  }
   return (
     <Section>
       <h2 className="text-3xl md:text-5xl font-bold">Contact me</h2>
       <div className="mt-8 p-8 rounded-md bg-white bg-opacity-50 w-96 max-w-full">
-        {state.succeeded ? (
+        {succeeded ? (
           <p className="text-gray-900 text-center">Thanks for your message !</p>
         ) : (
           <form onSubmit={handleSubmit}>
-            <label for="name" className="font-medium text-gray-900 block mb-1">
+            <label htmlFor="name" className="font-medium text-gray-900 block mb-1">
               Name
             </label>
             <input
               type="text"
               name="name"
               id="name"
+              required
               className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
             />
+            {error && <p className="mt-2 text-red-600">{error}</p>}
             <label
-              for="email"
+              htmlFor="email"
               className="font-medium text-gray-900 block mb-1 mt-8"
             >
               Email
@@ -291,16 +340,12 @@ const ContactSection = () => {
               type="email"
               name="email"
               id="email"
+              required
               className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
             />
-            <ValidationError
-              className="mt-1 text-red-500"
-              prefix="Email"
-              field="email"
-              errors={state.errors}
-            />
+            {error && <p className="mt-2 text-red-600">{error}</p>}
             <label
-              for="email"
+              htmlFor="message"
               className="font-medium text-gray-900 block mb-1 mt-8"
             >
               Message
@@ -308,17 +353,15 @@ const ContactSection = () => {
             <textarea
               name="message"
               id="message"
+              required
               className="h-32 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
             />
-            <ValidationError
-              className="mt-1 text-red-500"
-              errors={state.errors}
-            />
+            {error && <p className="mt-2 text-red-600">{error}</p>}
             <button
-              disabled={state.submitting}
+              disabled={submitting}
               className="bg-indigo-600 text-white py-4 px-8 rounded-lg font-bold text-lg mt-16 "
             >
-              Submit
+              {submitting ? "Submitting..." : "Submit"}
             </button>
           </form>
         )}
