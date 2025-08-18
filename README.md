@@ -1,13 +1,13 @@
 # Subhan's Portfolio
 
-A 3D interactive portfolio showcasing my projects. The entire scene and all 3D models were created by me using Blender. The project is built with [React Three Fiber](https://github.com/pmndrs/react-three-fiber) and [Vite](https://vitejs.dev/).
+A 3D interactive portfolio showcasing my expertise in full-stack development, backend architecture, and cloud-based application deployment. Built with [React Three Fiber](https://github.com/pmndrs/react-three-fiber) and [Vite](https://vitejs.dev/).
 
 ## Features
 
-- Responsive 3D environment rendered with Three.js
-- Custom Blender models baked for web performance
+- Immersive 3D web experiences using Three.js
+- Scalable backend APIs and cloud-based SaaS systems
+- AI automation tools and REST API integrations
 - Smooth animations and scroll-based transitions
-- Simple UI for navigating between sections
 
 ## Getting Started
 
